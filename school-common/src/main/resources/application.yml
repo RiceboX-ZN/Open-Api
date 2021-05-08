@@ -1,0 +1,50 @@
+server:
+  port: 10015
+spring:
+  application:
+    name: school-comon
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      client:
+        reactive:
+          endpoints: 119.45.1.135:9200
+  elasticsearch:
+    rest:
+      uris: http://119.45.1.135:9200
+      connection-timeout: 2
+  redis:
+    host: localhost
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        max-wait: 4
+    timeout: 6000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10010/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 1000
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+mapper:
+  not-empty: true
+  safe-update: true
+  safe-delete: true
+
+#客户端密钥明文
+school:
+  oauth2:
+    client:
+      secret: admin

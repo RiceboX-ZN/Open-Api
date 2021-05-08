@@ -1,0 +1,45 @@
+server:
+  port: 10011
+spring:
+  application:
+    name: school-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10010/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+zuul:
+  retryable: true
+  routes:
+    school-oauth:
+      path: /oauth/**
+      service-id: school-oauth
+    school-good:
+      path: /good/**
+      service-id: school-good
+    school-interfaces:
+      path: /interfaces/**
+      service-id: school-interfaces
+  sensitive-headers: null
+  add-host-header: true
+
+ribbon:
+  ConnectTimeout: 3000000
+  ReadTimeout: 3000000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 260000
+authentication:
+  skip-path-prefix:
+    - /csrf
+    - /oauth/oauth/**
+    - /oauth/public/**

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.oauth2.endpoint.mapper.UserMapper">
+
+    <!--自行选择使用-->
+    <resultMap id="BaseMap" type="com.school.oauth2.endpoint.domain.UserInfo">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="encrypted_password" property="encryptedPassword"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="idd" property="idd"/>
+        <result column="gender" property="gender"/>
+        <result column="avatar" property="avatar"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="account_expired_time" property="accountExpiredTime"/>
+        <result column="account_locked_time" property="accountLockedTime"/>
+        <result column="credentials_expired_time" property="credentialsExpiredTime"/>
+        <result column="is_admin" property="admin" jdbcType="TINYINT"/>
+        <result column="is_able" property="able" jdbcType="TINYINT"/>
+        <result column="user_type" property="userType"/>
+        <result column="we_char_user_id" property="weChatUserId"/>
+        <result column="ali_pay_user_id" property="aliPayUserId"/>
+        <collection property="roleList" ofType="com.school.oauth2.endpoint.domain.Role"
+                    column="user_id" select="com.school.oauth2.endpoint.mapper.RoleMapper.selectRoleByUserId">
+        </collection>
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="BaseMap">
+        SELECT
+            u.user_id,
+            u.username,
+            u.nickname,
+            u.encrypted_password,
+            u.phone,
+            u.email,
+            u.idd,
+            u.gender,
+            u.avatar,
+            u.school_name,
+            u.account_expired_time,
+            u.account_locked_time,
+            u.credentials_expired_time,
+            u.is_admin,
+            u.is_able,
+            u.user_type,
+            u.we_chat_user_id,
+            u.ali_pay_user_id
+        FROM oauth_user u
+        WHERE u.username = #{username}
+    </select>
+
+    <select id="queryUserDetailsByUserId" resultMap="BaseMap">
+        SELECT
+            u.user_id,
+            u.username,
+            u.nickname,
+            u.phone,
+            u.email,
+            u.idd,
+            u.gender,
+            u.avatar,
+            u.school_name,
+            u.account_expired_time,
+            u.account_locked_time,
+            u.credentials_expired_time,
+            u.is_admin,
+            u.is_able,
+            u.user_type,
+            u.we_chat_user_id,
+            u.ali_pay_user_id,
+            u.data_version,
+			u.creation_date_time,
+			u.created_by,
+			u.last_updated_by,
+			u.last_updated_date_time
+        FROM oauth_user u
+        WHERE u.user_id = #{userId}
+    </select>
+</mapper>

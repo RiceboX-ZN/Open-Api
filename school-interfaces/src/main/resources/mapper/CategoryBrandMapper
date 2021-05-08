@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.interfaces.mapper.CategoryBrandMapper">
+    <resultMap id="BaseMap" type="com.school.interfaces.entity.CategoryBrand" autoMapping="true">
+    </resultMap>
+
+    <delete id="deleteByBrandIdOrCategoryId" parameterType="com.school.interfaces.entity.CategoryBrand">
+        DELETE
+        FROM
+            goods_category_brand
+        WHERE  1 = 1
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+        <if test="categoryId != null" >
+            AND category_id = #{categoryId}
+        </if>
+    </delete>
+
+</mapper>

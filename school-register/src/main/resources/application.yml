@@ -1,0 +1,13 @@
+server:
+  port: 10010
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:10010/eureka/
+
+#注册中心
+spring:
+  application:
+    name: school-register

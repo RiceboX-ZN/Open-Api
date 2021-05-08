@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.oauth2.endpoint.mapper.PermissionMapper">
+    <!--供选择使用-->
+    <resultMap id="BaseMap" type="com.school.oauth2.endpoint.domain.Permission">
+        <id column="permission_id" property="permissionId"/>
+        <result column="service_platform" property="servicePlatform"/>
+        <result column="request_url" property="requestUrl"/>
+        <result column="authentication" property="authentication"/>
+        <collection property="roleList" ofType="com.school.oauth2.endpoint.domain.Role"
+                    column="permission_id" select="com.school.oauth2.endpoint.mapper.RoleMapper.selectRoleByPermissionId"/>
+    </resultMap>
+
+    <select id="selectPermissionByRoleId" resultType="com.school.oauth2.endpoint.domain.Permission">
+        SELECT
+            p.permission_id,
+            p.service_platform,
+            p.request_url,
+            p.authentication
+        FROM oauth_permission p INNER JOIN oauth_role_permission rp ON p.permission_id = rp.permission_id
+        WHERE rp.role_id = #{roleId}
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.school.good.mapper.ProductMapper">
+    <!--根据需求，选择使用-->
+    <resultMap id="BaseMap" type="com.school.good.elasticsearch.pojo.EsProduct" autoMapping="true">
+        <id column="product_id" property="productId"/>
+        <result column="is_able" property="able"/>
+    </resultMap>
+
+    <select id="getAllEsProductList" resultMap="BaseMap">
+        SELECT
+            p.product_id,
+            p.user_id,
+            p.product_code,
+            p.product_desc,
+            p.price,
+            p.origin_price,
+            p.degree_use,
+            p.flag,
+            p.image_url,
+            p.category_id,
+			p.brand_id,
+			p.is_able,
+			p.category_name,
+			p.brand_name,
+			p.school_name,
+			p.contact_phone,
+			p.contact_qq_or_wx,
+			p.recommend_status,
+			p.data_version,
+			p.creation_date_time,
+			p.created_by,
+			p.last_updated_by,
+			p.last_updated_date_time
+        FROM goods_product p
+        where 1 = 1
+        <if test="productId != null">
+            AND p.product_id = #{productId}
+        </if>
+
+    </select>
+
+</mapper>
